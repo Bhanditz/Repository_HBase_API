@@ -7,10 +7,12 @@ import java.util.List;
 This class will include the needed objects and attributes
  */
 public class NodeRecord implements Serializable {
-    String scientificName;
     int resourceId;
 
+    String generatedNodeId;
+
     Relation relation;
+
 
     List<VernacularName> vernaculars;
     List<Reference> references;
@@ -18,7 +20,14 @@ public class NodeRecord implements Serializable {
     List<Association> associations;
     List<MeasurementOrFact> measurementOrFacts;
     List<Media> media;
-    List<Agent> agents;
+
+    public String getGeneratedNodeId() {
+        return generatedNodeId;
+    }
+
+    public void setGeneratedNodeId(String generatedNodeId) {
+        this.generatedNodeId = generatedNodeId;
+    }
 
     public Relation getRelation() {
         return relation;
@@ -42,14 +51,6 @@ public class NodeRecord implements Serializable {
 
     public void setMeasurementOrFacts(List<MeasurementOrFact> measurementOrFacts) {
         this.measurementOrFacts = measurementOrFacts;
-    }
-
-    public List<Agent> getAgents() {
-        return agents;
-    }
-
-    public void setAgents(List<Agent> agents) {
-        this.agents = agents;
     }
 
     public int getResourceId() {
@@ -82,15 +83,6 @@ public class NodeRecord implements Serializable {
 
     public void setReferences(List<Reference> references) {
         this.references = references;
-    }
-
-    public String getScientificName() {
-
-        return scientificName;
-    }
-
-    public void setScientificName(String scientificName) {
-        this.scientificName = scientificName;
     }
 
     public List<VernacularName> getVernaculars() {

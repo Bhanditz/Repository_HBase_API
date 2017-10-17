@@ -1,6 +1,7 @@
 package org.bibalex.org.hbase.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Media implements Serializable {
     // hbase key: mediaId + type
@@ -27,7 +28,7 @@ public class Media implements Serializable {
     String publisher;
     String contributor;
     String creator;
-    String agentId;
+    List<Agent> agents;
     String locationCreated;
     String genericLocation;
     String latitude;
@@ -35,6 +36,14 @@ public class Media implements Serializable {
     String altitude;
     String referenceId;
 
+
+    public List<Agent> getAgents() {
+        return agents;
+    }
+
+    public void setAgents(List<Agent> agents) {
+        this.agents = agents;
+    }
 
     public String getMediaId() {
 
@@ -219,14 +228,6 @@ public class Media implements Serializable {
 
     public void setCreator(String creator) {
         this.creator = creator;
-    }
-
-    public String getAgentId() {
-        return agentId;
-    }
-
-    public void setAgentId(String agentId) {
-        this.agentId = agentId;
     }
 
     public String getLocationCreated() {

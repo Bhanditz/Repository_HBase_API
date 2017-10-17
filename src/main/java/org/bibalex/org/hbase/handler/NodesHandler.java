@@ -48,125 +48,142 @@ public class NodesHandler {
 
     public boolean addRow(NodeRecord node)
     {
-        String keyParts = this.getNextRandom() + "_" + node.getResourceId() +  "_" + node.getScientificName();
+        String keyParts = this.getNextRandom() + "_" + node.getResourceId() +  "_" + node.getGeneratedNodeId();
         Put p = new Put(Bytes.toBytes(keyParts));
 
         // add Vernacular names of node
-        byte[] namesColumnFamily = Bytes.toBytes("Names");
-        for (VernacularName vn : node.getVernaculars()) {
-            String columnQualifier = vn.getName();
-            try {
-                byte[] value = NodesHandler.serialize(vn);
-                p.addColumn(namesColumnFamily, Bytes.toBytes(columnQualifier), value);
-            } catch (IOException e) {
-                System.out.println("Vernacular Name serialization error");
-                e.printStackTrace();
+        if(node.getVernaculars() != null) {
+            byte[] namesColumnFamily = Bytes.toBytes("Names");
+            for (VernacularName vn : node.getVernaculars()) {
+                String columnQualifier = vn.getName();
+                try {
+                    byte[] value = NodesHandler.serialize(vn);
+                    p.addColumn(namesColumnFamily, Bytes.toBytes(columnQualifier), value);
+                } catch (IOException e) {
+                    System.out.println("Vernacular Name serialization error");
+                    e.printStackTrace();
+                }
             }
         }
         // add References of node
-        byte[] referencesColumnFamily = Bytes.toBytes("References");
-        for (Reference reference : node.getReferences()) {
-            String columnQualifier = reference.getReferenceId();
-            try {
-                byte[] value = NodesHandler.serialize(reference);
-                p.addColumn(referencesColumnFamily, Bytes.toBytes(columnQualifier), value);
-            } catch (IOException e) {
-                System.out.println("Reference serialization error");
-                e.printStackTrace();
+        if(node.getReferences() != null) {
+            byte[] referencesColumnFamily = Bytes.toBytes("References");
+            for (Reference reference : node.getReferences()) {
+                String columnQualifier = reference.getReferenceId();
+                try {
+                    byte[] value = NodesHandler.serialize(reference);
+                    p.addColumn(referencesColumnFamily, Bytes.toBytes(columnQualifier), value);
+                } catch (IOException e) {
+                    System.out.println("Reference serialization error");
+                    e.printStackTrace();
+                }
             }
         }
 
         // add media
-        HashMap<String, Agent> agentsMap = new HashMap<String, Agent> ();
-        for (Agent agent : node.getAgents()) {
-            agentsMap.put(agent.getAgentId(), agent);
-        }
         // add media of node
         byte[] attributesColumnFamily = Bytes.toBytes("Attributes");
-        for (Media md : node.getMedia()) {
-            String mediaKeyParts = this.generateMediaGUID()+"";
-            Put mediaPut = new Put(Bytes.toBytes(mediaKeyParts));
-            String columnQualifier = md.getMediaId() + "_" + md.getType();
-            try {
-                byte[] value = NodesHandler.serialize(md);
-                mediaPut.addColumn(attributesColumnFamily, Bytes.toBytes(columnQualifier), value);
-            } catch (IOException e) {
-                System.out.println("media serialization error");
-                e.printStackTrace();
+        if(node.getMedia() != null) {
+            for (Media md : node.getMedia()) {
+                String mediaKeyParts = this.generateMediaGUID() + "";
+                Put mediaPut = new Put(Bytes.toBytes(mediaKeyParts));
+                String columnQualifier = md.getMediaId() + "_" + md.getType();
+                try {
+                    byte[] value = NodesHandler.serialize(md);
+                    mediaPut.addColumn(attributesColumnFamily, Bytes.toBytes(columnQualifier), value);
+                } catch (IOException e) {
+                    System.out.println("media serialization error");
+                    e.printStackTrace();
+                }
+                List<Agent> agentsOfMedia = md.getAgents();
+                if(agentsOfMedia != null) {
+                    byte[] agentsColumnFamily = Bytes.toBytes("Agents");
+                    for (Agent agent : agentsOfMedia) {
+                        String agentColumnQualifier = agent.getAgentId();
+                        try {
+                            byte[] value = NodesHandler.serialize(agent);
+                            mediaPut.addColumn(agentsColumnFamily, Bytes.toBytes(columnQualifier), value);
+                        } catch (IOException e) {
+                            System.out.println("agent serialization error");
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                if(node.getRelation() == null)
+                    node.setRelation(new Relation());
+                if (node.getRelation().getGuids() == null) {
+                    node.getRelation().setGuids(new ArrayList<String>());
+                    node.getRelation().getGuids().add(mediaKeyParts);
+                } else
+                    node.getRelation().getGuids().add(mediaKeyParts);
+                hbaseHandler.addRow("Media", mediaPut);
             }
-            Agent agentOfMedia = agentsMap.get(md.getAgentId());
-            byte[] agentsColumnFamily = Bytes.toBytes("Agents");
-            String agentColumnQualifier = agentOfMedia.getAgentId();
-            try {
-                byte[] value = NodesHandler.serialize(agentOfMedia);
-                mediaPut.addColumn(agentsColumnFamily, Bytes.toBytes(agentColumnQualifier), value);
-            } catch (IOException e) {
-                System.out.println("agent serialization error");
-                e.printStackTrace();
-            }
-            if(node.getRelation().getGuids() == null)
-            {
-                node.getRelation().setGuids(new ArrayList<String>());
-                node.getRelation().getGuids().add(mediaKeyParts);
-            }
-            else
-                node.getRelation().getGuids().add(mediaKeyParts);
-            hbaseHandler.addRow("Media", mediaPut);
         }
-
 
 
         // add relations of node
-        byte[] relationsColumnFamily = Bytes.toBytes("Relations");
-        byte[] columnQualifier = Bytes.toBytes("relation");
-        try {
-            byte[] value = NodesHandler.serialize(node.getRelation());
-            p.addColumn(relationsColumnFamily, columnQualifier, value);
-        } catch (IOException e) {
-            System.out.println("Relation serialization error");
-            e.printStackTrace();
+        if(node.getRelation() != null) {
+            byte[] relationsColumnFamily = Bytes.toBytes("Relations");
+            byte[] columnQualifier = Bytes.toBytes("relation");
+            try {
+                byte[] value = NodesHandler.serialize(node.getRelation());
+                p.addColumn(relationsColumnFamily, columnQualifier, value);
+            } catch (IOException e) {
+                System.out.println("Relation serialization error");
+                e.printStackTrace();
+            }
         }
 
         // add traits of node
         byte[] traitsColumnFamily = Bytes.toBytes("Traits");
         // add occurrences
-        for (Occurrence occurrence : node.getOccurrences()) {
-            String occurrenceColumnQualifier = occurrence.getOccurrenceId();
-            try {
-                byte[] value = NodesHandler.serialize(occurrence);
-                p.addColumn(traitsColumnFamily, Bytes.toBytes(occurrenceColumnQualifier), value);
-            } catch (IOException e) {
-                System.out.println("occurrences serialization error");
-                e.printStackTrace();
+        if(node.getOccurrences() != null) {
+            for (Occurrence occurrence : node.getOccurrences()) {
+                String occurrenceColumnQualifier = occurrence.getOccurrenceId();
+                try {
+                    byte[] value = NodesHandler.serialize(occurrence);
+                    p.addColumn(traitsColumnFamily, Bytes.toBytes(occurrenceColumnQualifier), value);
+                } catch (IOException e) {
+                    System.out.println("occurrences serialization error");
+                    e.printStackTrace();
+                }
             }
         }
         // add measurementOrFacts
-        for (MeasurementOrFact measurementOrFact : node.getMeasurementOrFacts()) {
-            String measurementColumnQualifier = measurementOrFact.getOccurrenceId() + "_" +
-                                               measurementOrFact.getMeasurementType() + "_" +
-                                               measurementOrFact.getMeasurementValue();
-            try {
-                byte[] value = NodesHandler.serialize(measurementOrFact);
-                p.addColumn(traitsColumnFamily, Bytes.toBytes(measurementColumnQualifier), value);
-            } catch (IOException e) {
-                System.out.println("measurementOrFacts serialization error");
-                e.printStackTrace();
+        if(node.getMeasurementOrFacts() != null) {
+            for (MeasurementOrFact measurementOrFact : node.getMeasurementOrFacts()) {
+                String measurementColumnQualifier = measurementOrFact.getOccurrenceId() + "_" +
+                        measurementOrFact.getMeasurementType() + "_" +
+                        measurementOrFact.getMeasurementValue();
+                try {
+                    byte[] value = NodesHandler.serialize(measurementOrFact);
+                    p.addColumn(traitsColumnFamily, Bytes.toBytes(measurementColumnQualifier), value);
+                } catch (IOException e) {
+                    System.out.println("measurementOrFacts serialization error");
+                    e.printStackTrace();
+                }
             }
         }
         // add associations
-        for (Association association : node.getAssociations()) {
-            String associationColumnQualifier = association.getOccurrenceId() + "_" +
-                                                association.getTargetOccurrenceId() + "_" +
-                                                association.getAssociationType();
-            try {
-                byte[] value = NodesHandler.serialize(association);
-                p.addColumn(traitsColumnFamily, Bytes.toBytes(associationColumnQualifier), value);
-            } catch (IOException e) {
-                System.out.println("association serialization error");
-                e.printStackTrace();
+        if(node.getAssociations() != null) {
+            for (Association association : node.getAssociations()) {
+                String associationColumnQualifier = association.getOccurrenceId() + "_" +
+                        association.getTargetOccurrenceId() + "_" +
+                        association.getAssociationType();
+                try {
+                    byte[] value = NodesHandler.serialize(association);
+                    p.addColumn(traitsColumnFamily, Bytes.toBytes(associationColumnQualifier), value);
+                } catch (IOException e) {
+                    System.out.println("association serialization error");
+                    e.printStackTrace();
+                }
             }
         }
-        return hbaseHandler.addRow(this.tableName, p);
+        if(node.getVernaculars() != null || node.getReferences() != null || node.getRelation() != null || node.getAssociations() != null
+                || node.getOccurrences() != null || node.getMeasurementOrFacts() != null)
+            return hbaseHandler.addRow(this.tableName, p);
+        else
+            return false;
     }
 
 
@@ -184,7 +201,7 @@ public class NodesHandler {
 
                 // get scientific name
                 String[] rowKeyParts = Bytes.toString(result.getRow()).split("_");
-                node.setScientificName(rowKeyParts[2]);
+                node.setGeneratedNodeId(rowKeyParts[2]);
                 node.setResourceId(Integer.parseInt(rowKeyParts[1]));
 
                 // get Vernaculares of node
@@ -279,9 +296,9 @@ public class NodesHandler {
                 }
 
                 // get media and agents of node
-                Object[] arr = getMediaOfNode(node.getRelation().getGuids());
-                node.setMedia((List<Media>)arr[0]);
-                node.setAgents((List<Agent>)arr[1]);
+                if(node != null && node.getRelation() != null && node.getRelation().getGuids() != null) {
+                    node.setMedia(getMediaOfNode(node.getRelation().getGuids()));
+                }
 
                 allNodesOfResource.add(node);
             }
@@ -292,11 +309,9 @@ public class NodesHandler {
         }
     }
 
-    public Object[] getMediaOfNode(List<String> guids)
+    public List<Media> getMediaOfNode(List<String> guids)
     {
-        Object[] arr = new Object[2];
         List<Media> media = new ArrayList<Media>();
-        List<Agent> agents = new ArrayList<Agent>();
         FilterList allFilters = new FilterList(FilterList.Operator.MUST_PASS_ONE);
         for (String g : guids) {
             allFilters.addFilter(new PrefixFilter(Bytes.toBytes(g)));
@@ -308,6 +323,25 @@ public class NodesHandler {
                 {
                     try {
                         Media md = (Media) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Attributes"), i));
+
+                        // get agents of a given media
+                        Set<byte[]> agentsCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Agents")).keySet();
+                        for(byte[] j : agentsCoulmnQualifiers)
+                        {
+                            try {
+                                Agent agent = (Agent) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Agents"), j));
+                                if(md.getAgents() == null)
+                                {
+                                    md.setAgents(new ArrayList<Agent>());
+                                    md.getAgents().add(agent);
+                                }
+                                else
+                                    md.getAgents().add(agent);
+                            } catch (ClassNotFoundException e) {
+                                e.printStackTrace();
+                                System.out.println("agent deserialization Error");
+                            }
+                        }
                         media.add(md);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
@@ -315,21 +349,8 @@ public class NodesHandler {
                     }
                 }
 
-                Set<byte[]> agentsCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Agents")).keySet();
-                for(byte[] i : agentsCoulmnQualifiers)
-                {
-                    try {
-                        Agent agent = (Agent) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Agents"), i));
-                        agents.add(agent);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                        System.out.println("agent deserialization Error");
-                    }
-                }
             }
-            arr[0] = media;
-            arr[1] = agents;
-            return arr;
+            return media;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
@@ -337,50 +358,50 @@ public class NodesHandler {
     }
 
 
-    public void addMedia(List<Media> media, List<Agent> agents)
-    {
-        HashMap<String, Agent> agentsMap = new HashMap<String, Agent> ();
-        for (Agent agent : agents) {
-            agentsMap.put(agent.getAgentId(), agent);
-        }
-
-        // add media of node
-        byte[] attributesColumnFamily = Bytes.toBytes("Attributes");
-        for (Media md : media) {
-            String keyParts = this.generateMediaGUID()+"";
-            Put p = new Put(Bytes.toBytes(keyParts));
-            for (Field field: md.getClass().getDeclaredFields())
-            {
-
-                field.setAccessible(true);
-                String columnQualifier = field.getName();
-                try {
-                    String value = (String) field.get(md);
-                    p.addColumn(attributesColumnFamily, Bytes.toBytes(columnQualifier), Bytes.toBytes(value));
-                } catch (IllegalAccessException e) {
-                    System.out.println("read media attributes error for " + columnQualifier);
-                    e.printStackTrace();
-                }
-            }
-
-            byte[] agentsColumnFamily = Bytes.toBytes("Agents");
-            Agent agentOfMedia = agentsMap.get(md.getAgentId());
-            for (Field field: agentOfMedia.getClass().getDeclaredFields())
-            {
-                field.setAccessible(true);
-                String columnQualifier = field.getName();
-                try {
-                    String value = (String) field.get(agentOfMedia);
-                    p.addColumn(agentsColumnFamily, Bytes.toBytes(columnQualifier), Bytes.toBytes(value));
-                } catch (IllegalAccessException e) {
-                    System.out.println("read agent attributes error for " + columnQualifier);
-                    e.printStackTrace();
-                }
-            }
-            hbaseHandler.addRow("Media", p);
-        }
-
-    }
+//    public void addMedia(List<Media> media, List<Agent> agents)
+//    {
+//        HashMap<String, Agent> agentsMap = new HashMap<String, Agent> ();
+//        for (Agent agent : agents) {
+//            agentsMap.put(agent.getAgentId(), agent);
+//        }
+//
+//        // add media of node
+//        byte[] attributesColumnFamily = Bytes.toBytes("Attributes");
+//        for (Media md : media) {
+//            String keyParts = this.generateMediaGUID()+"";
+//            Put p = new Put(Bytes.toBytes(keyParts));
+//            for (Field field: md.getClass().getDeclaredFields())
+//            {
+//
+//                field.setAccessible(true);
+//                String columnQualifier = field.getName();
+//                try {
+//                    String value = (String) field.get(md);
+//                    p.addColumn(attributesColumnFamily, Bytes.toBytes(columnQualifier), Bytes.toBytes(value));
+//                } catch (IllegalAccessException e) {
+//                    System.out.println("read media attributes error for " + columnQualifier);
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            byte[] agentsColumnFamily = Bytes.toBytes("Agents");
+//            Agent agentOfMedia = agentsMap.get(md.getAgentId());
+//            for (Field field: agentOfMedia.getClass().getDeclaredFields())
+//            {
+//                field.setAccessible(true);
+//                String columnQualifier = field.getName();
+//                try {
+//                    String value = (String) field.get(agentOfMedia);
+//                    p.addColumn(agentsColumnFamily, Bytes.toBytes(columnQualifier), Bytes.toBytes(value));
+//                } catch (IllegalAccessException e) {
+//                    System.out.println("read agent attributes error for " + columnQualifier);
+//                    e.printStackTrace();
+//                }
+//            }
+//            hbaseHandler.addRow("Media", p);
+//        }
+//
+//    }
 
     public static byte[] serialize(Object obj) throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();

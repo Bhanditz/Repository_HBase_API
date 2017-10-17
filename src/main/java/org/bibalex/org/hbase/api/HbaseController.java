@@ -10,15 +10,16 @@ import org.bibalex.org.hbase.handler.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/hbase_api")
+@RequestMapping("/api")
 public class HbaseController {
 	
 	@RequestMapping(value = "/addHEntry", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-    public ResponseEntity<NodeRecord> downloadResource(@RequestBody NodeRecord hE) {
+    public ResponseEntity<HbaseResult> downloadResource(@RequestBody NodeRecord hE) {
 
 		HbaseHandler hb = HbaseHandler.getHbaseHandler();
 		NodesHandler nodesHandler = new NodesHandler(hb, "Nodes", "nodes_cf.properties");
-		nodesHandler.addRow(hE);
+		HbaseResult result = new HbaseResult();
+		result.setStatus(nodesHandler.addRow(hE));
 
 //		hE.setScientificName(hE.getScientificName() + "---1");
 		HttpHeaders headers = new HttpHeaders();
@@ -31,7 +32,7 @@ public class HbaseController {
                 .headers(headers)
                 .contentType(
                         MediaType.parseMediaType("application/json"))
-                .body(hE);
+                .body(result);
 	}
 
 	@RequestMapping(value = "/getLatestNodesOfResource/{resourceId}", method = RequestMethod.GET, produces = "application/json")

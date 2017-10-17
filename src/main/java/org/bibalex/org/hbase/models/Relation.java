@@ -14,7 +14,15 @@ public class Relation implements Serializable{
     String family;
     String genus;
     String referenceId;
+    String scientificName;
 
+    public String getScientificName() {
+        return scientificName;
+    }
+
+    public void setScientificName(String scientificName) {
+        this.scientificName = scientificName;
+    }
 
     public List<Integer> getPageIds() {
         return pageIds;
