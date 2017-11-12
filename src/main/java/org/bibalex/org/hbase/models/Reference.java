@@ -7,7 +7,10 @@ import java.io.Serializable;
  * because of that.
  */
 public class Reference implements Serializable {
-    String referenceId; // used as hbase key of a reference
+   // used as hbase key of a reference
+
+
+    String referenceId;
     String publicationType;
     String fullReference;
     String primaryTitle;
@@ -25,7 +28,15 @@ public class Reference implements Serializable {
     String url;
     String doi;
     String localityOfPublisher;
+    String deltaStatus;
 
+    public String getDeltaStatus() {
+        return deltaStatus;
+    }
+
+    public void setDeltaStatus(String deltaStatus) {
+        this.deltaStatus = deltaStatus;
+    }
 
     public String getReferenceId() {
         return referenceId;

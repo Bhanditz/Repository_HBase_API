@@ -1,13 +1,15 @@
 org/bibalex/org/hbase/HbaseAPI.class
 org/bibalex/org/hbase/models/Event.class
+org/bibalex/org/hbase/models/Taxon.class
 org/bibalex/org/hbase/models/MeasurementOrFact.class
+org/bibalex/org/hbase/handler/NodesHandler.class
 org/bibalex/org/hbase/models/NodeRecord.class
+org/bibalex/org/hbase/handler/HbaseHandler.class
 org/bibalex/org/hbase/models/Occurrence.class
 org/bibalex/org/hbase/models/Media.class
-org/bibalex/org/hbase/models/Relation.class
 org/bibalex/org/hbase/models/Agent.class
-org/bibalex/org/hbase/models/Taxa.class
 org/bibalex/org/hbase/models/Reference.class
 org/bibalex/org/hbase/api/HbaseController.class
 org/bibalex/org/hbase/models/Association.class
+org/bibalex/org/hbase/handler/HbaseResult.class
 org/bibalex/org/hbase/models/VernacularName.class

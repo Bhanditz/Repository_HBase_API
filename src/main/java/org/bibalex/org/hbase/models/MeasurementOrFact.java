@@ -22,6 +22,15 @@ public class MeasurementOrFact implements Serializable {
     String citation;
     String contributor;
     String referenceId;
+    String deltaStatus;
+
+    public String getDeltaStatus() {
+        return deltaStatus;
+    }
+
+    public void setDeltaStatus(String deltaStatus) {
+        this.deltaStatus = deltaStatus;
+    }
 
     public String getMeasurementId() {
         return measurementId;
@@ -166,5 +175,4 @@ public class MeasurementOrFact implements Serializable {
     public void setReferenceId(String referenceId) {
         this.referenceId = referenceId;
     }
-
 }

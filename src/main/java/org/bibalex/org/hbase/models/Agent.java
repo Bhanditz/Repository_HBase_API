@@ -16,10 +16,19 @@ public class Agent implements Serializable {
     String organization;
     String accountName;
     String openId;
+    String deltaStatus;
 
     public String getAgentId() {
 
         return agentId;
+    }
+
+    public String getDeltaStatus() {
+        return deltaStatus;
+    }
+
+    public void setDeltaStatus(String deltaStatus) {
+        this.deltaStatus = deltaStatus;
     }
 
     public void setAgentId(String agentId) {

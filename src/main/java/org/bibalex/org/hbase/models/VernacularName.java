@@ -3,7 +3,8 @@ package org.bibalex.org.hbase.models;
 import java.io.Serializable;
 
 public class VernacularName implements Serializable {
-    String name; // used as hbase key of a vernacular name
+    // used as hbase key of a vernacular name
+    String name;
     String source;
     String language;
     String locality;
@@ -11,11 +12,19 @@ public class VernacularName implements Serializable {
     //String as it will be saved to Hbase as string and it is read from file as string. No need to save it as boolean
     String isPreferred;
     String taxonRemarks;
-
+    String deltaStatus;
 
     public void setName(String name) {
 
         this.name = name;
+    }
+
+    public String getDeltaStatus() {
+        return deltaStatus;
+    }
+
+    public void setDeltaStatus(String deltaStatus) {
+        this.deltaStatus = deltaStatus;
     }
 
     public void setSource(String source) {

@@ -136,7 +136,8 @@ public class HbaseHandler {
             Scan scan = new Scan();
             if(timestamp != null)
                 scan.setTimeRange(Long.parseLong(timestamp), System.currentTimeMillis());
-            scan.setFilter(filterList);
+            if(filterList != null)
+                scan.setFilter(filterList);
             results = table.getScanner(scan);
             return results;
         } catch (IOException e) {

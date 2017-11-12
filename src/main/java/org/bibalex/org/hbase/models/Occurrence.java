@@ -3,7 +3,8 @@ package org.bibalex.org.hbase.models;
 import java.io.Serializable;
 
 public class Occurrence implements Serializable {
-    String occurrenceId; // used as hbase key of a Occurrence
+    // used as hbase key of a Occurrence
+    String occurrenceId;
     String eventId;
     String institutionCode;
     String collectionCode;
@@ -30,11 +31,19 @@ public class Occurrence implements Serializable {
     String verbatimLatitude;
     String verbatimLongitude;
     String verbatimElevation;
-
+    String deltaStatus;
 
     public String getOccurrenceId() {
 
         return occurrenceId;
+    }
+
+    public String getDeltaStatus() {
+        return deltaStatus;
+    }
+
+    public void setDeltaStatus(String deltaStatus) {
+        this.deltaStatus = deltaStatus;
     }
 
     public void setOccurrenceId(String occurrenceId) {

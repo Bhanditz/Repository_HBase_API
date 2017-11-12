@@ -102,34 +102,34 @@ public class NodesHandler {
                         String agentColumnQualifier = agent.getAgentId();
                         try {
                             byte[] value = NodesHandler.serialize(agent);
-                            mediaPut.addColumn(agentsColumnFamily, Bytes.toBytes(columnQualifier), value);
+                            mediaPut.addColumn(agentsColumnFamily, Bytes.toBytes(agentColumnQualifier), value);
                         } catch (IOException e) {
                             System.out.println("agent serialization error");
                             e.printStackTrace();
                         }
                     }
                 }
-                if(node.getRelation() == null)
-                    node.setRelation(new Relation());
-                if (node.getRelation().getGuids() == null) {
-                    node.getRelation().setGuids(new ArrayList<String>());
-                    node.getRelation().getGuids().add(mediaKeyParts);
+                if(node.getTaxon() == null)
+                    node.setTaxon(new Taxon());
+                if (node.getTaxon().getGuids() == null) {
+                    node.getTaxon().setGuids(new ArrayList<String>());
+                    node.getTaxon().getGuids().add(mediaKeyParts);
                 } else
-                    node.getRelation().getGuids().add(mediaKeyParts);
+                    node.getTaxon().getGuids().add(mediaKeyParts);
                 hbaseHandler.addRow("Media", mediaPut);
             }
         }
 
 
         // add relations of node
-        if(node.getRelation() != null) {
+        if(node.getTaxon() != null) {
             byte[] relationsColumnFamily = Bytes.toBytes("Relations");
             byte[] columnQualifier = Bytes.toBytes("relation");
             try {
-                byte[] value = NodesHandler.serialize(node.getRelation());
+                byte[] value = NodesHandler.serialize(node.getTaxon());
                 p.addColumn(relationsColumnFamily, columnQualifier, value);
             } catch (IOException e) {
-                System.out.println("Relation serialization error");
+                System.out.println("Taxon serialization error");
                 e.printStackTrace();
             }
         }
@@ -179,7 +179,7 @@ public class NodesHandler {
                 }
             }
         }
-        if(node.getVernaculars() != null || node.getReferences() != null || node.getRelation() != null || node.getAssociations() != null
+        if(node.getVernaculars() != null || node.getReferences() != null || node.getTaxon() != null || node.getAssociations() != null
                 || node.getOccurrences() != null || node.getMeasurementOrFacts() != null)
             return hbaseHandler.addRow(this.tableName, p);
         else
@@ -190,22 +190,27 @@ public class NodesHandler {
     public List<NodeRecord> getNodesOfResource(int resource, String timestamp)
     {
         List<NodeRecord> allNodesOfResource = new ArrayList<NodeRecord>();
-        FilterList allFilters = new FilterList(FilterList.Operator.MUST_PASS_ONE);
-        for (int i = 0; i < randomGeneratorMax; i++) {
-            allFilters.addFilter(new PrefixFilter(Bytes.toBytes(i + "_" + resource)));
+        FilterList allFilters = null;
+        if(resource != -1) {
+            allFilters = new FilterList(FilterList.Operator.MUST_PASS_ONE);
+            for (int i = 0; i < randomGeneratorMax; i++) {
+                allFilters.addFilter(new PrefixFilter(Bytes.toBytes(i + "_" + resource)));
+            }
         }
         try (ResultScanner results = hbaseHandler.scan(this.tableName, allFilters, timestamp)) {
 
             for (Result result = results.next(); result != null; result = results.next()) {
                 NodeRecord node = new NodeRecord();
 
-                // get scientific name
+                // get generated node id
                 String[] rowKeyParts = Bytes.toString(result.getRow()).split("_");
                 node.setGeneratedNodeId(rowKeyParts[2]);
                 node.setResourceId(Integer.parseInt(rowKeyParts[1]));
 
                 // get Vernaculares of node
                 Set<byte[]> vernacularCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Names")).keySet();
+                System.out.println("vernaculars");
+                System.out.println(vernacularCoulmnQualifiers.size());
                 for(byte[] i : vernacularCoulmnQualifiers)
                 {
                     try {
@@ -287,8 +292,8 @@ public class NodesHandler {
                 for(byte[] i : relationsCoulmnQualifiers)
                 {
                     try {
-                        Relation relation = (Relation) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Relations"), i));
-                        node.setRelation(relation);
+                        Taxon relation = (Taxon) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Relations"), i));
+                        node.setTaxon(relation);
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                         System.out.println("relation serialization Error");
@@ -296,9 +301,13 @@ public class NodesHandler {
                 }
 
                 // get media and agents of node
-                if(node != null && node.getRelation() != null && node.getRelation().getGuids() != null) {
-                    node.setMedia(getMediaOfNode(node.getRelation().getGuids()));
+                if(node != null && node.getTaxon() != null && node.getTaxon().getGuids() != null) {
+                    node.setMedia(getMediaOfNode(node.getTaxon().getGuids()));
                 }
+
+                // get ancestors & children & synonyms : call neo4j
+
+
 
                 allNodesOfResource.add(node);
             }
@@ -309,9 +318,14 @@ public class NodesHandler {
         }
     }
 
-    public List<Media> getMediaOfNode(List<String> guids)
+    public getAncestors(String generatedNodeId)
     {
-        List<Media> media = new ArrayList<Media>();
+
+    }
+
+    public ArrayList<Media> getMediaOfNode(ArrayList<String> guids)
+    {
+        ArrayList<Media> media = new ArrayList<Media>();
         FilterList allFilters = new FilterList(FilterList.Operator.MUST_PASS_ONE);
         for (String g : guids) {
             allFilters.addFilter(new PrefixFilter(Bytes.toBytes(g)));

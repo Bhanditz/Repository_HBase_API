@@ -1,56 +1,30 @@
 package org.bibalex.org.hbase.models;
 
 import java.io.Serializable;
-import java.util.List;
+import java.util.ArrayList;
 
 /*
 This class will include the needed objects and attributes
  */
 public class NodeRecord implements Serializable {
     int resourceId;
-
+    String taxonId;
+    ArrayList<VernacularName> vernaculars;
+    ArrayList<Reference> references;
+    ArrayList<Occurrence> occurrences;
+    ArrayList<Association> associations;
+    ArrayList<MeasurementOrFact> measurementOrFacts;
+    ArrayList<Media> media;
     String generatedNodeId;
+    Taxon taxon;
+    String deltaStatus;
 
-    Relation relation;
-
-
-    List<VernacularName> vernaculars;
-    List<Reference> references;
-    List<Occurrence> occurrences;
-    List<Association> associations;
-    List<MeasurementOrFact> measurementOrFacts;
-    List<Media> media;
-
-    public String getGeneratedNodeId() {
-        return generatedNodeId;
+    public String getDeltaStatus() {
+        return deltaStatus;
     }
 
-    public void setGeneratedNodeId(String generatedNodeId) {
-        this.generatedNodeId = generatedNodeId;
-    }
-
-    public Relation getRelation() {
-        return relation;
-    }
-
-    public void setRelation(Relation relation) {
-        this.relation = relation;
-    }
-
-    public List<Association> getAssociations() {
-        return associations;
-    }
-
-    public void setAssociations(List<Association> associations) {
-        this.associations = associations;
-    }
-
-    public List<MeasurementOrFact> getMeasurementOrFacts() {
-        return measurementOrFacts;
-    }
-
-    public void setMeasurementOrFacts(List<MeasurementOrFact> measurementOrFacts) {
-        this.measurementOrFacts = measurementOrFacts;
+    public void setDeltaStatus(String deltaStatus) {
+        this.deltaStatus = deltaStatus;
     }
 
     public int getResourceId() {
@@ -61,36 +35,75 @@ public class NodeRecord implements Serializable {
         this.resourceId = resourceId;
     }
 
-    public List<Media> getMedia() {
+    public ArrayList<Association> getAssociations() {
+        return associations;
+    }
+
+    public Taxon getTaxon() {
+        return taxon;
+    }
+
+    public void setTaxon(Taxon taxon) {
+        this.taxon = taxon;
+    }
+
+    public void setAssociations(ArrayList<Association> associations) {
+        this.associations = associations;
+    }
+
+    public ArrayList<MeasurementOrFact> getMeasurementOrFacts() {
+        return measurementOrFacts;
+    }
+
+    public void setMeasurementOrFacts(ArrayList<MeasurementOrFact> measurementOrFacts) {
+        this.measurementOrFacts = measurementOrFacts;
+    }
+
+    public String getGeneratedNodeId() {
+        return generatedNodeId;
+    }
+
+    public void setGeneratedNodeId(String generatedNodeId) {
+        this.generatedNodeId = generatedNodeId;
+    }
+
+    public String getTaxonId() {
+        return taxonId;
+    }
+
+    public void setTaxonId(String taxonId) {
+        this.taxonId = taxonId;
+    }
+
+    public ArrayList<Media> getMedia() {
         return media;
     }
 
-    public void setMedia(List<Media> media) {
+    public void setMedia(ArrayList<Media> media) {
         this.media = media;
     }
 
-    public List<Occurrence> getOccurrences() {
+    public ArrayList<Occurrence> getOccurrences() {
         return occurrences;
     }
 
-    public void setOccurrences(List<Occurrence> occurrences) {
+    public void setOccurrences(ArrayList<Occurrence> occurrences) {
         this.occurrences = occurrences;
     }
 
-    public List<Reference> getReferences() {
+    public ArrayList<Reference> getReferences() {
         return references;
     }
 
-    public void setReferences(List<Reference> references) {
+    public void setReferences(ArrayList<Reference> references) {
         this.references = references;
     }
 
-    public List<VernacularName> getVernaculars() {
+    public ArrayList<VernacularName> getVernaculars() {
         return vernaculars;
     }
 
-    public void setVernaculars(List<VernacularName> vernaculars) {
+    public void setVernaculars(ArrayList<VernacularName> vernaculars) {
         this.vernaculars = vernaculars;
     }
-
 }
