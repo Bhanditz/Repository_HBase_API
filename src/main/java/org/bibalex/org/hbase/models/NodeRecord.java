@@ -18,7 +18,15 @@ public class NodeRecord implements Serializable {
     String generatedNodeId;
     Taxon taxon;
     String deltaStatus;
+    NodeData nodeData;
 
+    public NodeData getNodeData() {
+        return nodeData;
+    }
+
+    public void setNodeData(NodeData nodeData) {
+        this.nodeData = nodeData;
+    }
     public String getDeltaStatus() {
         return deltaStatus;
     }

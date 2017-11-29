@@ -1,6 +1,8 @@
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/models/VernacularName.java
+/home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/models/HbaseData.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/handler/NodesHandler.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/models/Occurrence.java
+/home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/models/NodeData.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/handler/HbaseResult.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/handler/HbaseHandler.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/models/Reference.java
@@ -9,7 +11,9 @@
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/models/Event.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/HbaseAPI.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/api/HbaseController.java
+/home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/api/Neo4jClient.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/models/NodeRecord.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/models/Media.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/models/Association.java
+/home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/PropertiesHandler.java
 /home/ba/IdeaProjects/hbase_api/src/main/java/org/bibalex/org/hbase/models/Agent.java

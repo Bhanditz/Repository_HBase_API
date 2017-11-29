@@ -15,6 +15,7 @@ import org.apache.hadoop.hbase.filter.FilterList;
 import org.apache.hadoop.hbase.filter.PrefixFilter;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.util.Bytes;
+import org.bibalex.org.hbase.api.Neo4jClient;
 import org.bibalex.org.hbase.models.*;
 
 public class NodesHandler {
@@ -306,6 +307,8 @@ public class NodesHandler {
                 }
 
                 // get ancestors & children & synonyms : call neo4j
+//                NodeData nodeData = Neo4jClient.getNodeData(node.getGeneratedNodeId());
+//                node.setNodeData(nodeData);
 
 
 
@@ -318,10 +321,6 @@ public class NodesHandler {
         }
     }
 
-    public getAncestors(String generatedNodeId)
-    {
-
-    }
 
     public ArrayList<Media> getMediaOfNode(ArrayList<String> guids)
     {

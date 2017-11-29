@@ -19,6 +19,7 @@ public class HbaseAPI extends SpringBootServletInitializer   {
 
 
     public static void main(String[] args) throws Exception {
+        PropertiesHandler.initializeProperties();
         SpringApplication.run(HbaseAPI.class, args);
     }
 }
