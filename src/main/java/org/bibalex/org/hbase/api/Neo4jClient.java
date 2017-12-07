@@ -15,7 +15,7 @@ public class Neo4jClient {
 //        final String uri = PropertiesHandler.getProperty("neo4j.api.address") +
 //                PropertiesHandler.getProperty("get.node.data.action");
 
-        final String uri = "{generatedNodeId}";
+        final String uri = "";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("generatedNodeId", generatedNodeId);
