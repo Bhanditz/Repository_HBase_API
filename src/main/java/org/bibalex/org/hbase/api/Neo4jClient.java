@@ -12,10 +12,10 @@ public class Neo4jClient {
 
     public static NodeData getNodeData(String generatedNodeId)
     {
-//        final String uri = PropertiesHandler.getProperty("neo4j.api.address") +
-//                PropertiesHandler.getProperty("get.node.data.action");
+        final String uri = PropertiesHandler.getProperty("neo4j.api.address") +
+                PropertiesHandler.getProperty("get.node.data.action");
 
-        final String uri = "";
+       // final String uri = "http://172.16.0.161/eol/neo4j/getNodeData/{generatedNodeId}";
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("generatedNodeId", generatedNodeId);
@@ -28,7 +28,7 @@ public class Neo4jClient {
 
     public static void main(String[] args) throws IOException {
         PropertiesHandler.initializeProperties();
-        NodeData v = Neo4jClient.getNodeData("177");
+        NodeData v = Neo4jClient.getNodeData("2");
         System.out.println(v.getChildren() == null);
 
     }

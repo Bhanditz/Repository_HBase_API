@@ -6,16 +6,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
-import org.apache.hadoop.hbase.client.Admin;
-import org.apache.hadoop.hbase.client.Connection;
-import org.apache.hadoop.hbase.client.ConnectionFactory;
-import org.apache.hadoop.hbase.client.Get;
-import org.apache.hadoop.hbase.client.HBaseAdmin;
-import org.apache.hadoop.hbase.client.Put;
-import org.apache.hadoop.hbase.client.Result;
-import org.apache.hadoop.hbase.client.ResultScanner;
-import org.apache.hadoop.hbase.client.Scan;
-import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.FilterList;
 import java.io.IOException;
 
@@ -154,6 +145,25 @@ public class HbaseHandler {
             return true;
         } catch (IOException e) {
             System.err.println("Failed to relase Hbase Handler ");
+            return false;
+        }
+    }
+
+
+    public boolean deleteColumn(String tableName, byte[] rowKey, byte[] columnFamily, byte[] columnQualifier) {
+
+        try {
+            Table table = connection.getTable(TableName.valueOf(tableName));
+            Delete delete = new Delete(rowKey);
+            delete.addColumn(columnFamily,columnQualifier, Long.parseLong("1520846070116"));
+//            delete.deleteColumn(columnFamily, columnQualifier);
+            table.delete(delete);
+
+
+            table.close();
+            return true;
+        } catch (IOException e) {
+            System.err.println("Failed to add row to " + tableName + " Table on HBase: " + e);
             return false;
         }
     }

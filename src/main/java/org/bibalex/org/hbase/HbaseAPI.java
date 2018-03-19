@@ -9,12 +9,12 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 
 @SpringBootApplication
-public class HbaseAPI extends SpringBootServletInitializer   {
+public class HbaseAPI   {
 
-    @Override
-    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(HbaseAPI.class);
-    }
+//    @Override
+//    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+//        return application.sources(HbaseAPI.class);
+//    }
 
 
 

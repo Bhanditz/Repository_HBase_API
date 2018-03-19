@@ -49,14 +49,16 @@ public class NodesHandler {
 
     public boolean addRow(NodeRecord node)
     {
-        String keyParts = this.getNextRandom() + "_" + node.getResourceId() +  "_" + node.getGeneratedNodeId();
+//        String keyParts = this.getNextRandom() + "_" + node.getResourceId() +  "_" + node.getGeneratedNodeId();
+        String keyParts = node.getResourceId() +  "_" + node.getGeneratedNodeId();
+
         Put p = new Put(Bytes.toBytes(keyParts));
 
         // add Vernacular names of node
         if(node.getVernaculars() != null) {
             byte[] namesColumnFamily = Bytes.toBytes("Names");
             for (VernacularName vn : node.getVernaculars()) {
-                String columnQualifier = vn.getName();
+                String columnQualifier = vn.getName() + "_" + vn.getLanguage();
                 try {
                     byte[] value = NodesHandler.serialize(vn);
                     p.addColumn(namesColumnFamily, Bytes.toBytes(columnQualifier), value);
@@ -190,13 +192,19 @@ public class NodesHandler {
 
     public List<NodeRecord> getNodesOfResource(int resource, String timestamp)
     {
+
+//        hbaseHandler.addcolumn("Nodes",Bytes.toBytes("Names"), Bytes.toBytes("1_1005"),
+//                Bytes.toBytes("v4"), Bytes.toBytes("NULL"));
+
+//        hbaseHandler.deleteColumn(this.tableName, Bytes.toBytes("1_1005"), Bytes.toBytes("Names"), Bytes.toBytes("v4"));
         List<NodeRecord> allNodesOfResource = new ArrayList<NodeRecord>();
+
         FilterList allFilters = null;
         if(resource != -1) {
-            allFilters = new FilterList(FilterList.Operator.MUST_PASS_ONE);
-            for (int i = 0; i < randomGeneratorMax; i++) {
-                allFilters.addFilter(new PrefixFilter(Bytes.toBytes(i + "_" + resource)));
-            }
+            allFilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
+//            for (int i = 0; i < randomGeneratorMax; i++) {
+                allFilters.addFilter(new PrefixFilter(Bytes.toBytes(resource + "_")));
+//            }
         }
         try (ResultScanner results = hbaseHandler.scan(this.tableName, allFilters, timestamp)) {
 
@@ -205,8 +213,8 @@ public class NodesHandler {
 
                 // get generated node id
                 String[] rowKeyParts = Bytes.toString(result.getRow()).split("_");
-                node.setGeneratedNodeId(rowKeyParts[2]);
-                node.setResourceId(Integer.parseInt(rowKeyParts[1]));
+                node.setGeneratedNodeId(rowKeyParts[1]);
+                node.setResourceId(Integer.parseInt(rowKeyParts[0]));
 
                 // get Vernaculares of node
                 Set<byte[]> vernacularCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Names")).keySet();

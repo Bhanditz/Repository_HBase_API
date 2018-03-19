@@ -3,7 +3,7 @@ package org.bibalex.org.hbase.models;
 import java.io.Serializable;
 
 public class VernacularName implements Serializable {
-    // used as hbase key of a vernacular name
+    // hbas_key: name_language
     String name;
     String source;
     String language;
