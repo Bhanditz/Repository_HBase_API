@@ -37,6 +37,38 @@ public class Media implements Serializable {
     String altitude;
     String referenceId;
     String deltaStatus;
+    String guid;
+    String storageLayerPath;
+    String storageLayerThumbnailPath;
+
+    public String getStorageLayerPath() {
+        return storageLayerPath;
+    }
+
+    public void setStorageLayerPath(String storageLayerPath) {
+        this.storageLayerPath = storageLayerPath;
+    }
+
+    public String getStorageLayerThumbnailPath() {
+        return storageLayerThumbnailPath;
+    }
+
+    public void setStorageLayerThumbnailPath(String storageLayerThumbnailPath) {
+        this.storageLayerThumbnailPath = storageLayerThumbnailPath;
+    }
+
+
+
+
+    public String getGuid() {
+        return guid;
+    }
+
+    public void setGuid(String guid) {
+        this.guid = guid;
+    }
+
+
 
     public String getMediaId() {
 

@@ -8,7 +8,6 @@ This class will include the needed objects and attributes
  */
 public class NodeRecord implements Serializable {
     int resourceId;
-    String taxonId;
     ArrayList<VernacularName> vernaculars;
     ArrayList<Reference> references;
     ArrayList<Occurrence> occurrences;
@@ -75,13 +74,6 @@ public class NodeRecord implements Serializable {
         this.generatedNodeId = generatedNodeId;
     }
 
-    public String getTaxonId() {
-        return taxonId;
-    }
-
-    public void setTaxonId(String taxonId) {
-        this.taxonId = taxonId;
-    }
 
     public ArrayList<Media> getMedia() {
         return media;

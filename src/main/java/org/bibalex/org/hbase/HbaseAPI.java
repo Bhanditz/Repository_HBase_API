@@ -9,7 +9,7 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 
 @SpringBootApplication
-public class HbaseAPI   {
+public class HbaseAPI {
 
 //    @Override
 //    protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {

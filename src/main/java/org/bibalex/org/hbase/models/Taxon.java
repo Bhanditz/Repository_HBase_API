@@ -2,6 +2,7 @@ package org.bibalex.org.hbase.models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Taxon implements Serializable {
     String identifier;
@@ -29,6 +30,26 @@ public class Taxon implements Serializable {
     String eolIdAnnotations;
     String deltaStatus;
     ArrayList<String> guids;
+    HashMap<String, String> guidsMapping;
+    String taxonId;
+
+
+    public String getTaxonId() {
+        return taxonId;
+    }
+
+    public void setTaxonId(String taxonId) {
+        this.taxonId = taxonId;
+    }
+
+    public HashMap<String, String> getGuidsMapping() {
+        return guidsMapping;
+    }
+
+    public void setGuidsMapping(HashMap<String, String> guidsMapping) {
+        this.guidsMapping = guidsMapping;
+    }
+
 
     public ArrayList<String> getGuids() {
         return guids;
