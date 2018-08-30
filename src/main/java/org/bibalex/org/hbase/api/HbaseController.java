@@ -70,7 +70,7 @@ public class HbaseController {
 		HbaseHandler hb = HbaseHandler.getHbaseHandler();
 		NodesHandler nodesHandler = new NodesHandler(hb, "Nodes", "nodes_cf.properties");
 
-		List<NodeRecord> list = nodesHandler.getNodesOfResource(resourceId, null, null);
+		List<NodeRecord> list = nodesHandler.getNodesOfResource(resourceId, null, null,null,null);
 //		hE.setScientificName(hE.getScientificName() + "---1");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -85,13 +85,13 @@ public class HbaseController {
 				.body(list);
 	}
 
-	@RequestMapping(value = "/getLatestUpdates/{lastHarvestedTime}", method = RequestMethod.GET, produces = "application/json")
-	public ResponseEntity<List<NodeRecord>> getLatestUpdates(@PathVariable("lastHarvestedTime") String lastHarvestedTime) {
+	@RequestMapping(value = "/getLatestUpdates/{startHarvestedTime}/{endHarvestedTime}/{startRowKey}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<List<NodeRecord>> getLatestUpdates(@PathVariable("startHarvestedTime") String startHarvestedTime,@PathVariable("endHarvestedTime") String endHarvestedTime,@PathVariable("startRowKey") String startRowKey) {
 
 		HbaseHandler hb = HbaseHandler.getHbaseHandler();
 		NodesHandler nodesHandler = new NodesHandler(hb, "Nodes", "nodes_cf.properties");
 
-		List<NodeRecord> list = nodesHandler.getNodesOfResource(-1, lastHarvestedTime, null);
+		List<NodeRecord> list = nodesHandler.getNodesOfResource(-1, startHarvestedTime,endHarvestedTime, null,startRowKey);
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
 		headers.add("Pragma", "no-cache");

@@ -119,14 +119,18 @@ public class HbaseHandler {
         }
     }
 
-    public ResultScanner scan(String tableName, FilterList filterList, String timestamp) {
+    public ResultScanner scan(String tableName, FilterList filterList, String startTimestamp,String endTimestamp,byte[] startRow) {
         try {
 
             ResultScanner results = null;
             Table table = connection.getTable(TableName.valueOf(tableName));
             Scan scan = new Scan();
-            if(timestamp != null)
-                scan.setTimeRange(Long.parseLong(timestamp), System.currentTimeMillis());
+            if(startRow != null)
+                scan.setStartRow(startRow);
+            if(startTimestamp != null&&endTimestamp == null)
+                scan.setTimeRange(Long.parseLong(startTimestamp), System.currentTimeMillis());
+            if(startTimestamp != null&&endTimestamp!=null)
+                scan.setTimeRange(Long.parseLong(startTimestamp),Long.parseLong(endTimestamp) );
             if(filterList != null)
                 scan.setFilter(filterList);
             results = table.getScanner(scan);

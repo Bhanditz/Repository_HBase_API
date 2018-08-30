@@ -9,7 +9,10 @@ import java.util.*;
 
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
+import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.filter.PageFilter;
 import org.apache.hadoop.hbase.filter.PrefixFilter;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -37,6 +40,7 @@ public class NodesHandler {
     public boolean addNode(NodeRecord node)
     {
         String keyParts = node.getResourceId() +  "_" + node.getGeneratedNodeId();
+        System.out.println( keyParts);
 
         Put p = new Put(Bytes.toBytes(keyParts));
 
@@ -181,7 +185,7 @@ public class NodesHandler {
             allFilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
             allFilters.addFilter(new PrefixFilter(Bytes.toBytes(resource + "_" + generatedNodeId)));
         }
-        try (ResultScanner results = hbaseHandler.scan(this.tableName, allFilters, null)) {
+        try (ResultScanner results = hbaseHandler.scan(this.tableName, allFilters, null,null,null)) {
             if (results != null) {
                 Result result = results.next();
                 if (result != null) {
@@ -307,143 +311,154 @@ public class NodesHandler {
         return addNode(nodeRecord);
     }
 
-    public List<NodeRecord> getNodesOfResource(int resource, String timestamp, String generatedNodeId)
+    public List<NodeRecord> getNodesOfResource(int resource, String startTimestamp,String endTimestamp, String generatedNodeId, String start)
     {
 
+        System.out.println("function");
         List<NodeRecord> allNodesOfResource = new ArrayList<NodeRecord>();
 
-        FilterList allFilters = null;
+        FilterList allFilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
 
+        System.out.println(generatedNodeId);
         if(generatedNodeId != null) {
-            allFilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
+            System.out.println("in gn");
+//            allFilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
             allFilters.addFilter(new PrefixFilter(Bytes.toBytes(resource + "_" + generatedNodeId)));
         }
         else if(resource != -1)
         {
-            allFilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
+            System.out.println("in re");
+//            allFilters = new FilterList(FilterList.Operator.MUST_PASS_ALL);
             allFilters.addFilter(new PrefixFilter(Bytes.toBytes(resource + "_")));
         }
 
-        try (ResultScanner results = hbaseHandler.scan(this.tableName, allFilters, timestamp)) {
 
-            for (Result result = results.next(); result != null; result = results.next()) {
-                NodeRecord node = new NodeRecord();
+        System.out.println( "before prefix");
+        byte[] POSTFIX = new byte[] { 0x00 };
+        Filter filter = new PageFilter(5000);
+        allFilters.addFilter(filter);
+        int localRows =0;
+        byte[] lastRow = null;
+            localRows = 0;
+            System.out.println("in while");
+//            Scan scan = new Scan();
+//            scan.setFilter(filter);
 
-                // get generated node id
-                String[] rowKeyParts = Bytes.toString(result.getRow()).split("_");
-                node.setGeneratedNodeId(rowKeyParts[1]);
-                node.setResourceId(Integer.parseInt(rowKeyParts[0]));
+            byte[] startRow = start=="-1" ? null : start.getBytes();
+//            if (lastRow != null) {
+//                startRow = Bytes.add(lastRow, POSTFIX);
+//                System.out.println("start row: " + Bytes.toStringBinary(startRow));
+////                scan.setStartRow(startRow);
+//            }
 
-                // get Vernaculares of node
-                Set<byte[]> vernacularCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Names")).keySet();
-                System.out.println("vernaculars");
-                for(byte[] i : vernacularCoulmnQualifiers)
-                {
-                    try {
-                        VernacularName vn = (VernacularName) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Names"), i));
-                        if(node.getVernaculars() == null)
-                        {
-                            node.setVernaculars(new ArrayList<VernacularName>());
-                            node.getVernaculars().add(vn);
+            try (ResultScanner results = hbaseHandler.scan(this.tableName, allFilters, startTimestamp,endTimestamp, startRow)) {
+                System.out.println("in try");
+
+                for (Result result = results.next(); result != null; result = results.next()) {
+                    NodeRecord node = new NodeRecord();
+                    System.out.println("in for");
+
+                    // get generated node id
+                    String[] rowKeyParts = Bytes.toString(result.getRow()).split("_");
+                    node.setGeneratedNodeId(rowKeyParts[1]);
+                    node.setResourceId(Integer.parseInt(rowKeyParts[0]));
+
+                    // get Vernaculares of node
+                    Set<byte[]> vernacularCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Names")).keySet();
+                    System.out.println("vernaculars");
+                    for (byte[] i : vernacularCoulmnQualifiers) {
+                        try {
+                            VernacularName vn = (VernacularName) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Names"), i));
+                            if (node.getVernaculars() == null) {
+                                node.setVernaculars(new ArrayList<VernacularName>());
+                                node.getVernaculars().add(vn);
+                            } else
+                                node.getVernaculars().add(vn);
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                            System.out.println("Vernacular Name serialization Error");
                         }
-                        else
-                            node.getVernaculars().add(vn);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                        System.out.println("Vernacular Name serialization Error");
                     }
-                }
 
-                // get references of node
-                Set<byte[]> referencesCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("References")).keySet();
-                for(byte[] i : referencesCoulmnQualifiers)
-                {
-                    try {
-                        Reference reference = (Reference) NodesHandler.deserialize(result.getValue(Bytes.toBytes("References"), i));
-                        if(node.getReferences() == null)
-                        {
-                            node.setReferences(new ArrayList<Reference>());
-                            node.getReferences().add(reference);
+                    // get references of node
+                    Set<byte[]> referencesCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("References")).keySet();
+                    for (byte[] i : referencesCoulmnQualifiers) {
+                        try {
+                            Reference reference = (Reference) NodesHandler.deserialize(result.getValue(Bytes.toBytes("References"), i));
+                            if (node.getReferences() == null) {
+                                node.setReferences(new ArrayList<Reference>());
+                                node.getReferences().add(reference);
+                            } else
+                                node.getReferences().add(reference);
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                            System.out.println("refernces serialization Error");
                         }
-                        else
-                            node.getReferences().add(reference);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                        System.out.println("refernces serialization Error");
                     }
-                }
 
-                // get traits of node
-                Set<byte[]> traitsCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Traits")).keySet();
-                for(byte[] i : traitsCoulmnQualifiers)
-                {
-                    try {
-                        Object object = NodesHandler.deserialize(result.getValue(Bytes.toBytes("Traits"), i));
-                        if(object instanceof Occurrence) {
-                            if(node.getOccurrences() == null)
-                            {
-                                node.setOccurrences(new ArrayList<Occurrence>());
-                                node.getOccurrences().add((Occurrence) object);
+                    // get traits of node
+                    Set<byte[]> traitsCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Traits")).keySet();
+                    for (byte[] i : traitsCoulmnQualifiers) {
+                        try {
+                            Object object = NodesHandler.deserialize(result.getValue(Bytes.toBytes("Traits"), i));
+                            if (object instanceof Occurrence) {
+                                if (node.getOccurrences() == null) {
+                                    node.setOccurrences(new ArrayList<Occurrence>());
+                                    node.getOccurrences().add((Occurrence) object);
+                                } else
+                                    node.getOccurrences().add((Occurrence) object);
+                            } else if (object instanceof Association) {
+                                if (node.getAssociations() == null) {
+                                    node.setAssociations(new ArrayList<Association>());
+                                    node.getAssociations().add((Association) object);
+                                } else
+                                    node.getAssociations().add((Association) object);
+                            } else {
+                                if (node.getMeasurementOrFacts() == null) {
+                                    node.setMeasurementOrFacts(new ArrayList<MeasurementOrFact>());
+                                    node.getMeasurementOrFacts().add((MeasurementOrFact) object);
+                                } else
+                                    node.getMeasurementOrFacts().add((MeasurementOrFact) object);
                             }
-                            else
-                                node.getOccurrences().add((Occurrence) object);
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                            System.out.println("refernces serialization Error");
                         }
-                        else if(object instanceof Association) {
-                            if(node.getAssociations() == null)
-                            {
-                                node.setAssociations(new ArrayList<Association>());
-                                node.getAssociations().add((Association) object);
-                            }
-                            else
-                                node.getAssociations().add((Association) object);
-                        }
-                        else
-                        {
-                            if(node.getMeasurementOrFacts() == null)
-                            {
-                                node.setMeasurementOrFacts(new ArrayList<MeasurementOrFact>());
-                                node.getMeasurementOrFacts().add((MeasurementOrFact) object);
-                            }
-                            else
-                                node.getMeasurementOrFacts().add((MeasurementOrFact) object);
-                        }
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                        System.out.println("refernces serialization Error");
                     }
-                }
 
-                // get relations of node
-                Set<byte[]> relationsCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Relations")).keySet();
-                for(byte[] i : relationsCoulmnQualifiers)
-                {
-                    try {
-                        Taxon relation = (Taxon) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Relations"), i));
-                        node.setTaxon(relation);
-                    } catch (ClassNotFoundException e) {
-                        e.printStackTrace();
-                        System.out.println("relation serialization Error");
+                    // get relations of node
+                    Set<byte[]> relationsCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Relations")).keySet();
+                    for (byte[] i : relationsCoulmnQualifiers) {
+                        try {
+                            Taxon relation = (Taxon) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Relations"), i));
+                            node.setTaxon(relation);
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                            System.out.println("relation serialization Error");
+                        }
                     }
+
+                    // get media and agents of node
+                    if (node != null && node.getTaxon() != null && node.getTaxon().getGuids() != null) {
+                        node.setMedia(getMediaOfNode(node.getTaxon().getGuids(), startTimestamp));
+                    }
+
+                    // get ancestors & children & synonyms : call neo4j
+//                NodeData nodeData = Neo4jClient.getNodeData(node.getGeneratedNodeId());
+//                node.setNodeData(nodeData);
+
+
+                    allNodesOfResource.add(node);
+//                    lastRow = result.getRow();
                 }
+                return allNodesOfResource;
 
-                // get media and agents of node
-                if(node != null && node.getTaxon() != null && node.getTaxon().getGuids() != null) {
-                    node.setMedia(getMediaOfNode(node.getTaxon().getGuids(), timestamp));
-                }
-
-                // get ancestors & children & synonyms : call neo4j
-                NodeData nodeData = Neo4jClient.getNodeData(node.getGeneratedNodeId());
-                node.setNodeData(nodeData);
-
-
-
-                allNodesOfResource.add(node);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
             }
-            return allNodesOfResource;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
+
+
     }
 
 
@@ -454,7 +469,7 @@ public class NodesHandler {
         for (String g : guids) {
             allFilters.addFilter(new PrefixFilter(Bytes.toBytes(g)));
         }
-        try (ResultScanner results = hbaseHandler.scan("Media", allFilters, timestamp)) {
+        try (ResultScanner results = hbaseHandler.scan("Media", allFilters, timestamp,null,null)) {
             for (Result result = results.next(); result != null; result = results.next()) {
                 Set<byte[]> attributesCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Attributes")).keySet();
                 for(byte[] i : attributesCoulmnQualifiers)
@@ -480,7 +495,7 @@ public class NodesHandler {
 
     public boolean updateRow(NodeRecord node)
     {
-        List<NodeRecord> result = getNodesOfResource(node.getResourceId(), null, node.getGeneratedNodeId());
+        List<NodeRecord> result = getNodesOfResource(node.getResourceId(), null,null, node.getGeneratedNodeId(),null);
         NodeRecord targetNode = result.get(0);
         node.getTaxon().setGuids(targetNode.getTaxon().getGuids());
         node.getTaxon().setGuidsMapping(targetNode.getTaxon().getGuidsMapping());
@@ -505,8 +520,8 @@ public class NodesHandler {
     {
 
         HbaseHandler hb = HbaseHandler.getHbaseHandler();
-        hb.dropTable("Nodes");
-        hb.dropTable("Media");
+//        hb.dropTable("Nodes");
+//        hb.dropTable("Media");
         hb.createTable("Nodes", new String[] { "Names", "References", "Traits", "Relations" } );
         hb.createTable("Media", new String[] { "Attributes", "Agents" } );
     }
