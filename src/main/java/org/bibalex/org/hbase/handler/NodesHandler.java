@@ -431,9 +431,9 @@ public class NodesHandler {
                     node.setMedia(getMediaOfNode(node.getTaxon().getGuids(), timestamp));
                 }
 
-                // get ancestors & children & synonyms : call neo4j
-                NodeData nodeData = Neo4jClient.getNodeData(node.getGeneratedNodeId());
-                node.setNodeData(nodeData);
+//                // get ancestors & children & synonyms : call neo4j
+//                NodeData nodeData = Neo4jClient.getNodeData(node.getGeneratedNodeId());
+//                node.setNodeData(nodeData);
 
 
 
