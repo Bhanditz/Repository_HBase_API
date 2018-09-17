@@ -32,6 +32,7 @@ public class Taxon implements Serializable {
     ArrayList<String> guids;
     HashMap<String, String> guidsMapping;
     String taxonId;
+//    String landmark;
 
 
     public String getTaxonId() {
@@ -252,4 +253,8 @@ public class Taxon implements Serializable {
     public void setPageEolId(String pageEolId) {
         this.pageEolId = pageEolId;
     }
+
+//    public String getLandmark() { return landmark; }
+//
+//    public void setLandmark(String landmark) { this.landmark = landmark; }
 }

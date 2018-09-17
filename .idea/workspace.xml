@@ -2,8 +2,52 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c797d32c-5482-4728-beb5-19e412108342" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_3_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_8_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_8_7.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_8_7.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_2_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__javax_validation_validation_api_1_1_0_Final.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_accessors_smart_1_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_json_smart_2_2_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__nz_net_ultraq_thymeleaf_thymeleaf_layout_dialect_1_4_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__ognl_ognl_3_0_8.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_6.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_2_6_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_atteo_evo_inflector_1_2_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_groovy_groovy_2_4_9.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_library_1_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_validator_5_3_4_Final.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_javassist_javassist_3_21_0_GA.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_3_0_Final.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_1_10_19.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_2_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_0_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_4_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_rest_1_5_2_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_1_5_2_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_thymeleaf_1_5_2_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_1_5_2_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_1_5_2_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_1_5_2_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_commons_1_13_1_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_rest_core_2_6_1_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_rest_webmvc_2_6_1_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_hateoas_spring_hateoas_0_23_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_plugin_spring_plugin_core_1_2_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_4_3_7_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_4_3_7_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_4_3_7_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_4_3_7_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_thymeleaf_thymeleaf_2_1_5_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_thymeleaf_thymeleaf_spring4_2_1_5_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_unbescape_unbescape_1_1_0_RELEASE.xml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/HbaseAPI.java" afterPath="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/HbaseAPI.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/api/HbaseController.java" afterPath="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/api/HbaseController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/handler/HbaseHandler.java" afterPath="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/handler/HbaseHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/handler/NodesHandler.java" afterPath="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/handler/NodesHandler.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/models/Taxon.java" afterPath="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/models/Taxon.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -25,9 +69,14 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/handler/NodesHandler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="177">
-              <caret line="24" column="95" lean-forward="false" selection-start-line="24" selection-start-column="94" selection-end-line="24" selection-end-column="95" />
+              <caret line="365" column="24" lean-forward="false" selection-start-line="365" selection-start-column="24" selection-end-line="365" selection-end-column="24" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#1078#1079#0" expanded="true" />
+                <element signature="e#1118#1119#0" expanded="true" />
+                <element signature="e#4071#4079#0" expanded="true" />
+                <element signature="e#14894#14906#0" expanded="true" />
+                <element signature="e#22197#22204#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -47,8 +96,12 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/api/HbaseController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1422">
-              <caret line="88" column="93" lean-forward="false" selection-start-line="88" selection-start-column="76" selection-end-line="88" selection-end-column="93" />
-              <folding />
+              <caret line="88" column="93" lean-forward="false" selection-start-line="88" selection-start-column="93" selection-end-line="88" selection-end-column="93" />
+              <folding>
+                <marker date="1537175375557" expanded="true" signature="3920:4251" ph="{...}" />
+                <marker date="1537175375557" expanded="true" signature="4542:5159" ph="{...}" />
+                <marker date="1537175375557" expanded="true" signature="5273:5404" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -56,8 +109,8 @@
       <file leaf-file-name="HbaseAPI.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/HbaseAPI.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
+            <state relative-caret-position="162">
+              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -68,7 +121,13 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="18">
               <caret line="102" column="20" lean-forward="false" selection-start-line="102" selection-start-column="20" selection-end-line="102" selection-end-column="20" />
-              <folding />
+              <folding>
+                <marker date="1537175377597" expanded="true" signature="3623:3800" ph="..." />
+                <marker date="1537175377597" expanded="true" signature="3650:3774" ph="..." />
+                <marker date="1537175377597" expanded="true" signature="3813:4086" ph="..." />
+                <marker date="1537175377597" expanded="true" signature="3831:4073" ph="..." />
+                <marker date="1537175377597" expanded="true" signature="3906:4054" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -106,9 +165,13 @@
       <file leaf-file-name="HbaseHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/handler/HbaseHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2160">
-              <caret line="128" column="85" lean-forward="false" selection-start-line="128" selection-start-column="68" selection-end-line="128" selection-end-column="85" />
-              <folding />
+            <state relative-caret-position="2196">
+              <caret line="130" column="53" lean-forward="false" selection-start-line="130" selection-start-column="53" selection-end-line="130" selection-end-column="53" />
+              <folding>
+                <marker date="1537175375557" expanded="true" signature="4920:5244" ph="{...}" />
+                <marker date="1537175375557" expanded="true" signature="5275:5546" ph="{...}" />
+                <marker date="1537175375557" expanded="true" signature="5659:6218" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -124,7 +187,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>this.tableName</find>
       <find>relation_1</find>
       <find>scan</find>
       <find>addcolumn</find>
@@ -154,6 +216,7 @@
       <find>tomcat</find>
       <find>pom</find>
       <find>neo</find>
+      <find>page</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -204,9 +267,9 @@
         <option value="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/api/HbaseController.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/HbaseAPI.java" />
         <option value="$PROJECT_DIR$/src/main/resources/config.properties" />
         <option value="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/handler/NodesHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/HbaseAPI.java" />
       </list>
     </option>
   </component>
@@ -580,7 +643,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="162">
           <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1537175377597" expanded="true" signature="3623:3800" ph="..." />
+            <marker date="1537175377597" expanded="true" signature="3650:3774" ph="..." />
+            <marker date="1537175377597" expanded="true" signature="3813:4086" ph="..." />
+            <marker date="1537175377597" expanded="true" signature="3831:4073" ph="..." />
+            <marker date="1537175377597" expanded="true" signature="3906:4054" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -637,7 +706,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
           <caret line="28" column="22" lean-forward="false" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="22" />
-          <folding />
+          <folding>
+            <marker date="1537175375557" expanded="true" signature="4920:5244" ph="{...}" />
+            <marker date="1537175375557" expanded="true" signature="5275:5546" ph="{...}" />
+            <marker date="1537175375557" expanded="true" signature="5659:6218" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -697,6 +770,11 @@
           <caret line="247" column="72" lean-forward="true" selection-start-line="247" selection-start-column="72" selection-end-line="247" selection-end-column="72" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1078#1079#0" expanded="true" />
+            <element signature="e#1118#1119#0" expanded="true" />
+            <element signature="e#4071#4079#0" expanded="true" />
+            <element signature="e#14894#14906#0" expanded="true" />
+            <element signature="e#22197#22204#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -843,12 +921,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="48" column="28" lean-forward="false" selection-start-line="48" selection-start-column="28" selection-end-line="48" selection-end-column="28" />
-          <folding>
-            <element signature="e#877#878#0" expanded="true" />
-            <element signature="e#907#908#0" expanded="true" />
-            <element signature="e#953#954#0" expanded="true" />
-            <element signature="e#991#992#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -862,17 +935,25 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/handler/HbaseHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2160">
-          <caret line="128" column="85" lean-forward="false" selection-start-line="128" selection-start-column="68" selection-end-line="128" selection-end-column="85" />
-          <folding />
+        <state relative-caret-position="2196">
+          <caret line="130" column="53" lean-forward="false" selection-start-line="130" selection-start-column="53" selection-end-line="130" selection-end-column="53" />
+          <folding>
+            <marker date="1537175375557" expanded="true" signature="4920:5244" ph="{...}" />
+            <marker date="1537175375557" expanded="true" signature="5275:5546" ph="{...}" />
+            <marker date="1537175375557" expanded="true" signature="5659:6218" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/api/HbaseController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1422">
-          <caret line="88" column="93" lean-forward="false" selection-start-line="88" selection-start-column="76" selection-end-line="88" selection-end-column="93" />
-          <folding />
+          <caret line="88" column="93" lean-forward="false" selection-start-line="88" selection-start-column="93" selection-end-line="88" selection-end-column="93" />
+          <folding>
+            <marker date="1537175375557" expanded="true" signature="3920:4251" ph="{...}" />
+            <marker date="1537175375557" expanded="true" signature="4542:5159" ph="{...}" />
+            <marker date="1537175375557" expanded="true" signature="5273:5404" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -888,7 +969,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="18">
           <caret line="102" column="20" lean-forward="false" selection-start-line="102" selection-start-column="20" selection-end-line="102" selection-end-column="20" />
-          <folding />
+          <folding>
+            <marker date="1537175377597" expanded="true" signature="3623:3800" ph="..." />
+            <marker date="1537175377597" expanded="true" signature="3650:3774" ph="..." />
+            <marker date="1537175377597" expanded="true" signature="3813:4086" ph="..." />
+            <marker date="1537175377597" expanded="true" signature="3831:4073" ph="..." />
+            <marker date="1537175377597" expanded="true" signature="3906:4054" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -896,14 +983,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="14" lean-forward="false" selection-start-line="0" selection-start-column="14" selection-end-line="0" selection-end-column="14" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/HbaseAPI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="16" column="5" lean-forward="false" selection-start-line="16" selection-start-column="5" selection-end-line="16" selection-end-column="5" />
           <folding />
         </state>
       </provider>
@@ -924,12 +1003,25 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/HbaseAPI.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/org/bibalex/org/hbase/handler/NodesHandler.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
-          <caret line="24" column="95" lean-forward="false" selection-start-line="24" selection-start-column="94" selection-end-line="24" selection-end-column="95" />
+          <caret line="365" column="24" lean-forward="false" selection-start-line="365" selection-start-column="24" selection-end-line="365" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#1078#1079#0" expanded="true" />
+            <element signature="e#1118#1119#0" expanded="true" />
+            <element signature="e#4071#4079#0" expanded="true" />
+            <element signature="e#14894#14906#0" expanded="true" />
+            <element signature="e#22197#22204#0" expanded="true" />
           </folding>
         </state>
       </provider>
