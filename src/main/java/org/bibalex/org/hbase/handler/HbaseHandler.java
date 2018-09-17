@@ -8,6 +8,8 @@ import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.util.Bytes;
+
 import java.io.IOException;
 
 
@@ -125,8 +127,11 @@ public class HbaseHandler {
             ResultScanner results = null;
             Table table = connection.getTable(TableName.valueOf(tableName));
             Scan scan = new Scan();
-            if(startRow != null)
+            if(startRow != null) {
+                byte[] POSTFIX = new byte[] { 0x00 };
+                startRow = Bytes.add(startRow, POSTFIX);
                 scan.setStartRow(startRow);
+            }
             if(startTimestamp != null&&endTimestamp == null)
                 scan.setTimeRange(Long.parseLong(startTimestamp), System.currentTimeMillis());
             if(startTimestamp != null&&endTimestamp!=null)

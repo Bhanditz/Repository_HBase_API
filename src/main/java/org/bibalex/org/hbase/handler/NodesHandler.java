@@ -335,7 +335,7 @@ public class NodesHandler {
 
         System.out.println( "before prefix");
         byte[] POSTFIX = new byte[] { 0x00 };
-        Filter filter = new PageFilter(5000);
+        Filter filter = new PageFilter(5);
         allFilters.addFilter(filter);
         int localRows =0;
         byte[] lastRow = null;

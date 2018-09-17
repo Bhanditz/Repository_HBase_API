@@ -70,7 +70,7 @@ public class HbaseController {
 		HbaseHandler hb = HbaseHandler.getHbaseHandler();
 		NodesHandler nodesHandler = new NodesHandler(hb, "Nodes", "nodes_cf.properties");
 
-		List<NodeRecord> list = nodesHandler.getNodesOfResource(resourceId, null, null,null,null);
+		List<NodeRecord> list = nodesHandler.getNodesOfResource(resourceId, null, null,null,"-1");
 //		hE.setScientificName(hE.getScientificName() + "---1");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
