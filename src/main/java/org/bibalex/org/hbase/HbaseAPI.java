@@ -1,6 +1,7 @@
 package org.bibalex.org.hbase;
 
 
+import org.bibalex.org.hbase.handler.HbaseHandler;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;

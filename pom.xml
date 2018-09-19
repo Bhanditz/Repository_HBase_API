@@ -106,39 +106,45 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>3.6</version>
+        </dependency>
 
-
-
-
-
-
-
+        <dependency>
+            <groupId>org.apache.hbase</groupId>
+            <artifactId>hbase-endpoint</artifactId>
+            <version>2.1.0</version>
+        </dependency>
 
     </dependencies>
 
-    <repositories>
+    <!--<repositories>-->
 
-        <repository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </repository>
+        <!--<repository>-->
+            <!--<id>spring-releases</id>-->
+            <!--<url>https://repo.spring.io/libs-release</url>-->
+        <!--</repository>-->
 
-    </repositories>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>spring-releases</id>
-            <url>https://repo.spring.io/libs-release</url>
-        </pluginRepository>
-    </pluginRepositories>
+    <!--</repositories>-->
+    <!--<pluginRepositories>-->
+        <!--<pluginRepository>-->
+            <!--<id>spring-releases</id>-->
+            <!--<url>https://repo.spring.io/libs-release</url>-->
+        <!--</pluginRepository>-->
+    <!--</pluginRepositories>-->
+
 
     <build>
-        <plugins>
-            <!-- Package as an executable jar/war -->
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
+        <!--<plugins>-->
+            <!--&lt;!&ndash; Package as an executable jar/war &ndash;&gt;-->
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+
     </build>
 
 

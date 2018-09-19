@@ -9,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import org.bibalex.org.hbase.handler.*;
+
+import javax.xml.ws.RequestWrapper;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -70,7 +73,7 @@ public class HbaseController {
 		HbaseHandler hb = HbaseHandler.getHbaseHandler();
 		NodesHandler nodesHandler = new NodesHandler(hb, "Nodes", "nodes_cf.properties");
 
-		List<NodeRecord> list = nodesHandler.getNodesOfResource(resourceId, null, null,null,null);
+		List<NodeRecord> list = nodesHandler.getNodesOfResource(resourceId, null, null,null,"-1");
 //		hE.setScientificName(hE.getScientificName() + "---1");
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
@@ -134,5 +137,24 @@ public class HbaseController {
 	public ResponseEntity<String> downloadResource() {
 		System.out.println("----------------------------x----------------------------");
 		return new ResponseEntity(HttpStatus.OK);
+	}
+	@RequestMapping(value = "/deleteAllResourceRecords/{resourceId}", method = RequestMethod.GET, produces = "application/json")
+	public ResponseEntity<HbaseResult> deleteAllResourceRecords(@PathVariable("resourceId") int resourceId) throws IOException {
+        HbaseHandler hb = HbaseHandler.getHbaseHandler();
+        NodesHandler nodesHandler = new NodesHandler(hb, "Nodes", "nodes_cf.properties");
+        HbaseResult result = new HbaseResult();
+        result.setStatus(hb.deleteResourceRecords("Nodes",resourceId));
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+
+        return ResponseEntity
+                .ok()
+                .headers(headers)
+                .contentType(
+                        MediaType.parseMediaType("application/json"))
+                .body(result);
 	}
 }

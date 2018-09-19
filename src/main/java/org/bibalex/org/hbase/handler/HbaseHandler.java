@@ -1,5 +1,6 @@
 package org.bibalex.org.hbase.handler;
 
+import org.apache.commons.net.ntp.TimeStamp;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -7,8 +8,14 @@ import org.apache.hadoop.hbase.HColumnDescriptor;
 import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.filter.FilterList;
+import org.apache.hadoop.hbase.filter.*;
+import org.apache.hadoop.hbase.util.Bytes;
+//import org.apache.hadoop.hbase.coprocessor.BulkDeleteProtos.*;
+
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class HbaseHandler {
@@ -148,7 +155,7 @@ public class HbaseHandler {
             instance = null;
             return true;
         } catch (IOException e) {
-            System.err.println("Failed to relase Hbase Handler ");
+            System.err.println("Failed to release HBase Handler ");
             return false;
         }
     }
@@ -162,8 +169,6 @@ public class HbaseHandler {
             delete.addColumn(columnFamily,columnQualifier, Long.parseLong("1520846070116"));
 //            delete.deleteColumn(columnFamily, columnQualifier);
             table.delete(delete);
-
-
             table.close();
             return true;
         } catch (IOException e) {
@@ -171,9 +176,22 @@ public class HbaseHandler {
             return false;
         }
     }
+    public boolean deleteResourceRecords (String tableName, int resId) throws IOException {
 
-    public static void main(String[] args)
-    {
+        Table table = connection.getTable(TableName.valueOf(tableName));
+        FilterList filterList = new FilterList();
+        filterList.addFilter(new PrefixFilter(Bytes.toBytes(resId+"_")));
+        List<Delete> deleteList = new ArrayList<>();
+        ResultScanner resultScanner = scan("Nodes", filterList, "0", String.valueOf(System.currentTimeMillis()), "-1".getBytes());
+        for (Result r: resultScanner){
+            System.out.println(r.getRow());
+            deleteList.add(new Delete(r.getRow()));
+        }
+        table.delete(deleteList);
+        return true;
+    }
+
+    public static void main(String[] args) throws IOException {
         HbaseHandler hb = HbaseHandler.getHbaseHandler();
 //   hb.createTable("nodes", new String[] { "names", "refs" } );
 //   hb.scan("Nodes", null, null);
