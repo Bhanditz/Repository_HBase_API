@@ -143,7 +143,8 @@ public class HbaseController {
         HbaseHandler hb = HbaseHandler.getHbaseHandler();
         NodesHandler nodesHandler = new NodesHandler(hb, "Nodes", "nodes_cf.properties");
         HbaseResult result = new HbaseResult();
-        result.setStatus(hb.deleteResourceRecords("Nodes",resourceId));
+        String resourceCreatedAtTimeStamp = "0";
+        result.setStatus(hb.deleteResourceRecords(resourceId, resourceCreatedAtTimeStamp));
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Cache-Control", "no-cache, no-store, must-revalidate");

@@ -1,6 +1,5 @@
 package org.bibalex.org.hbase.handler;
 
-import org.apache.commons.net.ntp.TimeStamp;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -10,12 +9,13 @@ import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
 import org.apache.hadoop.hbase.filter.*;
 import org.apache.hadoop.hbase.util.Bytes;
-//import org.apache.hadoop.hbase.coprocessor.BulkDeleteProtos.*;
+import org.bibalex.org.hbase.models.NodeRecord;
+import org.bibalex.org.hbase.models.Taxon;
 
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class HbaseHandler {
@@ -176,23 +176,52 @@ public class HbaseHandler {
             return false;
         }
     }
-    public boolean deleteResourceRecords (String tableName, int resId) throws IOException {
+    public boolean deleteResourceRecords (int resId, String resourceCreatedAtTimeStamp) throws IOException {
 
-        Table table = connection.getTable(TableName.valueOf(tableName));
+        Table nodesTable = connection.getTable(TableName.valueOf("Nodes")),
+        mediaTable = connection.getTable(TableName.valueOf("Media"));
         FilterList filterList = new FilterList();
         filterList.addFilter(new PrefixFilter(Bytes.toBytes(resId+"_")));
-        List<Delete> deleteList = new ArrayList<>();
-        ResultScanner resultScanner = scan("Nodes", filterList, "0", String.valueOf(System.currentTimeMillis()), "-1".getBytes());
+        List<Delete> deleteNodeRecordList = new ArrayList<>();
+        List<Delete> deleteGuids = new ArrayList<>();
+        NodesHandler nodesHandler = new NodesHandler(HbaseHandler.getHbaseHandler(),"Nodes", "");
+        ResultScanner resultScanner = scan("Nodes", filterList, resourceCreatedAtTimeStamp, String.valueOf(System.currentTimeMillis()), "-1".getBytes());
+        System.out.println(resourceCreatedAtTimeStamp);
         for (Result r: resultScanner){
-            System.out.println(r.getRow());
-            deleteList.add(new Delete(r.getRow()));
+            System.out.println(Bytes.toString(r.getRow()));
+            NodeRecord node = new NodeRecord();
+            String[] rowKeyParts = Bytes.toString(r.getRow()).split("_");
+            node.setGeneratedNodeId(rowKeyParts[1]);
+            node.setResourceId(Integer.parseInt(rowKeyParts[0]));
+            Set<byte[]> relationsColumnQualifiers = r.getFamilyMap(Bytes.toBytes("Relations")).keySet();
+            for (byte[] i : relationsColumnQualifiers) {
+                try {
+                    Taxon taxon = (Taxon) NodesHandler.deserialize(r.getValue(Bytes.toBytes("Relations"), i));
+                    node.setTaxon(taxon);
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                    System.out.println("relation serialization Error");
+                }
+            }
+            if (node != null && node.getTaxon() != null && node.getTaxon().getGuids() != null) {
+                node.setMedia(nodesHandler.getMediaOfNode(node.getTaxon().getGuids(), "0"));
+            }
+            System.out.println(((node.getTaxon().getGuids()).size()));
+            System.out.println(String.valueOf(node.getTaxon().getGuids()));
+            for (String guid: node.getTaxon().getGuids())
+                deleteGuids.add(new Delete (Bytes.toBytes(guid)));
+//            deleteGuids.add(new Delete(Bytes.toBytes(String.valueOf(node.getTaxon().getGuids()))));
+//            deleteNodeTaxonMediaList.add((List<Delete>) deleteGuids);
+            deleteNodeRecordList.add(new Delete(r.getRow()));
         }
-        table.delete(deleteList);
+        mediaTable.delete(deleteGuids);
+        nodesTable.delete(deleteNodeRecordList);
         return true;
     }
 
     public static void main(String[] args) throws IOException {
         HbaseHandler hb = HbaseHandler.getHbaseHandler();
+//        hb.deleteResourceRecords(503);
 //   hb.createTable("nodes", new String[] { "names", "refs" } );
 //   hb.scan("Nodes", null, null);
     }

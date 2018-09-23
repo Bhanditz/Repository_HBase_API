@@ -193,7 +193,7 @@ public class NodesHandler {
                     nodeRecord.setGeneratedNodeId(rowKeyParts[1]);
                     nodeRecord.setResourceId(Integer.parseInt(rowKeyParts[0]));
 
-                    // get Vernaculares of node
+                    // get Vernaculars of node
                     Set<byte[]> vernacularCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Names")).keySet();
                     for (byte[] i : vernacularCoulmnQualifiers) {
                         try {
@@ -363,10 +363,10 @@ public class NodesHandler {
                     node.setGeneratedNodeId(rowKeyParts[1]);
                     node.setResourceId(Integer.parseInt(rowKeyParts[0]));
 
-                    // get Vernaculares of node
-                    Set<byte[]> vernacularCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Names")).keySet();
+                    // get Vernaculars of node
+                    Set<byte[]> vernacularColumnQualifiers = result.getFamilyMap(Bytes.toBytes("Names")).keySet();
                     System.out.println("vernaculars");
-                    for (byte[] i : vernacularCoulmnQualifiers) {
+                    for (byte[] i : vernacularColumnQualifiers) {
                         try {
                             VernacularName vn = (VernacularName) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Names"), i));
                             if (node.getVernaculars() == null) {
@@ -392,13 +392,13 @@ public class NodesHandler {
                                 node.getReferences().add(reference);
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
-                            System.out.println("refernces serialization Error");
+                            System.out.println("references serialization Error");
                         }
                     }
 
                     // get traits of node
-                    Set<byte[]> traitsCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Traits")).keySet();
-                    for (byte[] i : traitsCoulmnQualifiers) {
+                    Set<byte[]> traitsColumnQualifiers = result.getFamilyMap(Bytes.toBytes("Traits")).keySet();
+                    for (byte[] i : traitsColumnQualifiers) {
                         try {
                             Object object = NodesHandler.deserialize(result.getValue(Bytes.toBytes("Traits"), i));
                             if (object instanceof Occurrence) {
@@ -427,8 +427,8 @@ public class NodesHandler {
                     }
 
                     // get relations of node
-                    Set<byte[]> relationsCoulmnQualifiers = result.getFamilyMap(Bytes.toBytes("Relations")).keySet();
-                    for (byte[] i : relationsCoulmnQualifiers) {
+                    Set<byte[]> relationsColumnQualifiers = result.getFamilyMap(Bytes.toBytes("Relations")).keySet();
+                    for (byte[] i : relationsColumnQualifiers) {
                         try {
                             Taxon relation = (Taxon) NodesHandler.deserialize(result.getValue(Bytes.toBytes("Relations"), i));
                             node.setTaxon(relation);
